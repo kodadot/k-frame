@@ -52,14 +52,16 @@ app.frame('/finish', (c) => {
 
   const random = Math.floor(Math.random() * 111) + 1
 
-  const location = transactionId ? baseTxUrl(transactionId) : undefined
+  const txUrl = transactionId ? baseTxUrl(transactionId) : undefined
+  const location = kodaUrl('base', CONTRACT.BASE)
   const image = getImage('base', CONTRACT.BASE, String(random))
   return c.res({
     browserLocation: location,
     image: image,
     imageAspectRatio: '1:1',
     intents: [
-      location ? <Button.Link href={location}>View TX</Button.Link>: null
+      txUrl ? <Button.Link href={txUrl}>View TX</Button.Link>: null,
+      location ? <Button.Link href={location}>Collection view</Button.Link>: null,
     ]
   })
 })
