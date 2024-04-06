@@ -6,5 +6,5 @@ export function kodaUrl(chain: string, collection: string, token?: string): stri
 
 
 export function baseTxUrl(tx: string): string {
-  return `https://sepolia.basescan.org/tx/${tx}`
+  return `https://basescan.org/tx/${tx}`
 }
