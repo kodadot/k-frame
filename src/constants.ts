@@ -34,7 +34,7 @@ export const CHAIN_ID: Record<Chain, `${ChainNamespace}:${ChainIdEip155}`> = {
 
 // not final
 export const CONTRACT: Record<Chain, `0x${string}`> = {
-  BASE: '0xd2135CfB216b74109775236E36d4b433F1DF507B', // not final
+  BASE: '0x1b60a7ee6bba284a6aafa1eca0a1f7ea42099373',
   BASE_TEST: '0x1b60a7ee6BBA284A6aaFA1eCA0a1f7Ea42099373',
 }
 
