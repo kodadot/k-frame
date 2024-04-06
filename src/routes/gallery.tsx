@@ -1,5 +1,5 @@
 import { Button, Frog, parseEther } from 'frog'
-import { getItem } from '../services/uniquery'
+import { getCollection, getItem } from '../services/uniquery'
 import { baseTxUrl, kodaUrl } from '../utils'
 import { $purifyOne } from '@kodadot1/minipfs'
 import { CHAIN_ID, CONTRACT, HonoEnv, MINT_PRICE } from '../constants'
@@ -9,9 +9,9 @@ import { getImage } from '../services/dyndata'
 export const app = new Frog<HonoEnv>({})
 
 app.frame('/', async (c) => {
-  // const { chain, id } = { chain: 'ahk', id: '176' } //c.req.param()
+  // const { chain, id } = { chain: 'base', id: '0x25194dfc7981d8a13367fe19b5b1c5fc010d535f' } //c.req.param()
   // const collection = await getCollection(chain, id)
-  const collection = { name: 'BasedGen', image: 'ipfs://bafybeiaku6cssujnypeeutzm2qcbi7arvbpvcpgvqtvinn7ynxtbjis6ny' }
+  const collection = { name: 'Vortices', image: 'ipfs://bafybeidsrzf3zbuopqdta5qmuduhcr5iiejfy3cakctygkvsrfg7fsbng4' }
   // console.log({ collection })
   const image = $purifyOne(collection.image, 'kodadot_beta')
   // const supply = collection.supply
@@ -39,10 +39,10 @@ app.transaction('/mint', (c) => {
   // Contract transaction response.
   return c.contract({
     abi: abi,
-    chainId: CHAIN_ID.BASE_TEST,
+    chainId: CHAIN_ID.BASE,
     functionName: 'safeMint',
     args: [address],
-    to: CONTRACT.BASE_TEST,
+    to: CONTRACT.BASE,
     value: parseEther(MINT_PRICE),
   })
 })
@@ -53,7 +53,7 @@ app.frame('/finish', (c) => {
   const random = Math.floor(Math.random() * 111) + 1
 
   const location = transactionId ? baseTxUrl(transactionId) : undefined
-  const image = getImage('base', CONTRACT.BASE_TEST, String(random))
+  const image = getImage('base', CONTRACT.BASE, String(random))
   return c.res({
     browserLocation: location,
     image: image,
