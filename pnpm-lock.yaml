@@ -9,16 +9,16 @@ dependencies:
     specifier: ^0.4.3-rc.1
     version: 0.4.3-rc.1
   '@kodadot1/uniquery':
-    specifier: ^0.5.1
-    version: 0.5.1
+    specifier: ^0.6.0-rc.0
+    version: 0.6.0-rc.0
   frog:
     specifier: latest
-    version: 0.8.0(hono@4.2.1)
+    version: 0.8.0(hono@4.2.2)
   hono:
-    specifier: ^4.1.0
-    version: 4.2.1
+    specifier: ^4.2.2
+    version: 4.2.2
   ofetch:
-    specifier: ^1.3.3
+    specifier: ^1.3.4
     version: 1.3.4
   viem:
     specifier: ^2.9.9
@@ -537,13 +537,13 @@ packages:
     engines: {node: '>=18.14.1'}
     dev: false
 
-  /@hono/valibot-validator@0.2.2(hono@4.2.1)(valibot@0.30.0):
+  /@hono/valibot-validator@0.2.2(hono@4.2.2)(valibot@0.30.0):
     resolution: {integrity: sha512-1IfIi4JDztOeL3ciVbDoN5uJS9nSRfJv2az8VIn/m7CcVca2uF48Hw7v5ZShO/ESTP2SxtT8ozMZkQE1hi+kiw==}
     peerDependencies:
       hono: '>=3.9.0'
       valibot: ^0.13.1
     dependencies:
-      hono: 4.2.1
+      hono: 4.2.2
       valibot: 0.30.0
     dev: false
 
@@ -569,14 +569,14 @@ packages:
       ofetch: 1.3.4
     dev: false
 
-  /@kodadot1/static@0.0.4:
-    resolution: {integrity: sha512-91HlWsm1RWaQCWeeEnyQohCOJ523XaDF8njCC2xfJCsi5Ae5mW84iqt+m+MI5ZicMld07Ejuuo/YYZ8TDUUK4Q==}
+  /@kodadot1/static@0.0.5:
+    resolution: {integrity: sha512-TKPnkXtdnkC/KL2j0DXDT+zPtje2sAQ7wToPD+1gmm6ObmIi41ArUNaEWotXFRP4FqYPIz80omo3SOmfYyyPxg==}
     dev: false
 
-  /@kodadot1/uniquery@0.5.1:
-    resolution: {integrity: sha512-7PTOgXr/ME5dev4uBNtIgEOZUFEZi0t+TWnL17tOpUMaT3mFYBx59s6coWe8vnHyu30ekTejpLAl8M2+u17lGg==}
+  /@kodadot1/uniquery@0.6.0-rc.0:
+    resolution: {integrity: sha512-7s2NX/kv+HTzagSUCK8PWvPJvAHRORSvoJdTlpFADIGe0pPD7Nh5EQ6oU0xQozWj+pu06QgUfnxurQtWY4Jjvg==}
     dependencies:
-      '@kodadot1/static': 0.0.4
+      '@kodadot1/static': 0.0.5
       gql-query-builder: 3.8.0
       ofetch: 1.3.4
       scule: 1.3.0
@@ -1071,7 +1071,7 @@ packages:
     dependencies:
       to-regex-range: 5.0.1
 
-  /frog@0.8.0(hono@4.2.1):
+  /frog@0.8.0(hono@4.2.2):
     resolution: {integrity: sha512-rcPt8d94e3SKIS5za4UFT1NvrgS3jPFp9nK1N1mZyg1v7VWly9wZdH0PMV0Lv/+7FRatKI2G+gjR6CG4BFsxcw==}
     hasBin: true
     peerDependencies:
@@ -1083,7 +1083,7 @@ packages:
     dependencies:
       '@bufbuild/protobuf': 1.8.0
       '@hono/node-server': 1.9.1
-      '@hono/valibot-validator': 0.2.2(hono@4.2.1)(valibot@0.30.0)
+      '@hono/valibot-validator': 0.2.2(hono@4.2.2)(valibot@0.30.0)
       '@noble/curves': 1.4.0
       '@noble/hashes': 1.4.0
       cac: 6.7.14
@@ -1092,8 +1092,8 @@ packages:
       dom-parser: 1.1.5
       fast-glob: 3.3.2
       fs-extra: 11.2.0
-      hono: 4.2.1
-      hono-og: 0.0.26(hono@4.2.1)
+      hono: 4.2.2
+      hono-og: 0.0.26(hono@4.2.2)
       jose: 5.2.3
       lz-string: 1.5.0
       path-browserify: 1.0.1
@@ -1170,18 +1170,18 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
-  /hono-og@0.0.26(hono@4.2.1):
+  /hono-og@0.0.26(hono@4.2.2):
     resolution: {integrity: sha512-YUaLj+T06fWpykgPoeMbxnRMuEA+L83p5+PcBzlM2P/Rj889wnapvVDtT//81iJhRVLCkdjEkAHfcZaJ67cI8w==}
     peerDependencies:
       hono: '>=3'
     dependencies:
       '@vercel/og': 0.6.2
-      hono: 4.2.1
+      hono: 4.2.2
       workers-og: 0.0.23
     dev: false
 
-  /hono@4.2.1:
-    resolution: {integrity: sha512-yDv/6esHiDgq5fvsALTNyNiRxktOplO6LfSMgIkGE+E5vF8axsUfcyfzzlbLYM9ZQDMuws/ZLGUGWwYnAwCcNw==}
+  /hono@4.2.2:
+    resolution: {integrity: sha512-mDmjBHF6uBNN3TASdAbDCFsN9FLbrlgXyFZkhLEkU7hUgk0+T9hcsUrL/nho4qV+Xk0RDHx7gop4Q1gelZZVRw==}
     engines: {node: '>=16.0.0'}
     dev: false
 
