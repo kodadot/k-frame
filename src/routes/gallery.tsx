@@ -1,37 +1,60 @@
-import { Button, Frog, parseEther } from 'frog'
-import { getCollection, getItem } from '../services/uniquery'
-import { baseTxUrl, kodaUrl } from '../utils'
 import { $purifyOne } from '@kodadot1/minipfs'
+
+import { Button, Frog, parseEther } from 'frog'
+import abi from '../abi.json'; // with { type: 'json' }
 import { CHAIN_ID, CONTRACT, HonoEnv, MINT_PRICE } from '../constants'
-import abi from '../abi.json';// with { type: 'json' }
+import { doScreenshot } from '../services/capture'
 import { getImage } from '../services/dyndata'
+import { getItem } from '../services/uniquery'
+import { baseTxUrl, hashOf, kodaUrl } from '../utils'
+
+
 
 export const app = new Frog<HonoEnv>({})
+
+
+
+
 
 app.frame('/', async (c) => {
   // const { chain, id } = { chain: 'base', id: '0x25194dfc7981d8a13367fe19b5b1c5fc010d535f' } //c.req.param()
   // const collection = await getCollection(chain, id)
-  const collection = { name: 'Vortices', image: 'ipfs://bafybeidsrzf3zbuopqdta5qmuduhcr5iiejfy3cakctygkvsrfg7fsbng4' }
-  // console.log({ collection })
-  const image = $purifyOne(collection.image, 'kodadot_beta')
+  const collection = {
+    name: "Vortices",
+    image: "ipfs://bafybeidsrzf3zbuopqdta5qmuduhcr5iiejfy3cakctygkvsrfg7fsbng4",
+    uri: "ipfs://bafybeiexwsrhle2f4gjaptc5b3fm2rfo4ztfy5unsxointkqzyoarbpmsy",
+  };
+
+  // const image = $purifyOne(collection.image, 'kodadot_beta')
+  const imageWithUri = $purifyOne(collection.uri, 'kodadot_beta')
+  const hash = hashOf(Date.now().toString());
   // const supply = collection.supply
   // const location = kodaUrl(chain, id)
+  // console.log(image)
 
+  const url = `${imageWithUri}/?hash=${hash}`;
+
+  const imageMain = await doScreenshot(url);
+
+  if (!imageMain) {
+    throw new Error("Image not available")
+  }
   const label = `${collection.name} [${MINT_PRICE} ETH]`
   return c.res({
     // browserLocation: location,
     title: collection.name,
-    image,
-    action: '/finish',
-    imageAspectRatio: '1:1',
+    image: imageMain,
+    action: "/finish",
+    imageAspectRatio: "1:1",
     intents: [
       <Button.Transaction target="/mint">
-        {'Mint: '}
-        {label}{''}
+        {"Mint: "}
+        {label}
+        {""}
       </Button.Transaction>,
-      // <Button.Link href={location}>View</Button.Link>,
+      <Button action="/" value="reload">Reload 🔄</Button>,
     ],
-  })
+  });
 })
 
 app.transaction('/mint', (c) => {
@@ -48,22 +71,25 @@ app.transaction('/mint', (c) => {
 })
 
 app.frame('/finish', (c) => {
-  const { transactionId } = c
+  const { transactionId } = c;
+  
 
-  const random = Math.floor(Math.random() * 111) + 1
+  const random = Math.floor(Math.random() * 111) + 1;
 
-  const txUrl = transactionId ? baseTxUrl(transactionId) : undefined
-  const location = kodaUrl('base', CONTRACT.BASE)
-  const image = getImage('base', CONTRACT.BASE, String(random))
+  const txUrl = transactionId ? baseTxUrl(transactionId) : undefined;
+  const location = kodaUrl("base", CONTRACT.BASE);
+  const image = getImage("base", CONTRACT.BASE, String(random));
   return c.res({
     browserLocation: location,
     image: image,
-    imageAspectRatio: '1:1',
+    imageAspectRatio: "1:1",
     intents: [
-      txUrl ? <Button.Link href={txUrl}>View TX</Button.Link>: null,
-      location ? <Button.Link href={location}>Collection view</Button.Link>: null,
-    ]
-  })
+      txUrl ? <Button.Link href={txUrl}>View TX</Button.Link> : null,
+      location ? (
+        <Button.Link href={location}>Collection view</Button.Link>
+      ) : null,
+    ],
+  });
 })
 
 //:curr represents the current item id while :id represents the collection (e.g 106)
