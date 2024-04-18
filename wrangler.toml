@@ -1,13 +1,13 @@
-name = "based-frame"
+name = "unfoldings"
 compatibility_date = "2023-12-01"
 compatibility_flags = [ "nodejs_compat" ]
-main = "src/index.tsx"
+# main = "src/index.tsx"
 
 [env.beta]
-name = 'based-frame-beta'
+name = 'higher-beta'
 
 [env.production]
-name = 'based-frame'
+name = 'higher'
 
 [site]
 bucket = "./public"

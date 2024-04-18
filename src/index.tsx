@@ -2,13 +2,13 @@ import { Frog } from 'frog'
 import { devtools } from 'frog/dev'
 import { serveStatic } from 'frog/serve-static'
 import { app as gallery } from './routes/gallery'
-import { vars } from './ui'
+// import { vars } from './ui'
 // import { neynar } from 'frog/hubs'
 
 export const app = new Frog({
   // Supply a Hub to enable frame verification.
   // hub: neynar({ apiKey: 'NEYNAR_FROG_FM' })
-  ui: { vars }
+  // ui: { vars }
 })
 
 app.route('/', gallery)

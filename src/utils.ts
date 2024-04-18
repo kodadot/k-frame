@@ -5,6 +5,7 @@ export function kodaUrl(chain: string, collection: string, token?: string): stri
 }
 
 
-export function baseTxUrl(tx: string): string {
-  return `https://basescan.org/tx/${tx}`
+export function baseTxUrl(tx: string, chain = 'base'): string {
+  const BASESCAN = chain === 'base' ? 'https://basescan.org' : 'https://sepolia.basescan.org'
+  return `${BASESCAN}/tx/${tx}`
 }
