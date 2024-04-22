@@ -12,8 +12,8 @@ dependencies:
     specifier: ^0.6.0-rc.0
     version: 0.6.0-rc.0
   frog:
-    specifier: ^0.8.6
-    version: 0.8.6(hono@4.2.6)
+    specifier: ^0.8.0
+    version: 0.8.0(hono@4.2.6)
   hono:
     specifier: ^4.2.6
     version: 4.2.6
@@ -1071,8 +1071,8 @@ packages:
     dependencies:
       to-regex-range: 5.0.1
 
-  /frog@0.8.6(hono@4.2.6):
-    resolution: {integrity: sha512-ESHQqSwNNE1QqnELso4BnXZxJYUIhjkuD6rgt+esdZuUznnMqbWTRzWbQkcv7NiWkPsBJ3HuXlOCgyNiux/kPg==}
+  /frog@0.8.0(hono@4.2.6):
+    resolution: {integrity: sha512-rcPt8d94e3SKIS5za4UFT1NvrgS3jPFp9nK1N1mZyg1v7VWly9wZdH0PMV0Lv/+7FRatKI2G+gjR6CG4BFsxcw==}
     hasBin: true
     peerDependencies:
       hono: ^4
@@ -1093,7 +1093,7 @@ packages:
       fast-glob: 3.3.2
       fs-extra: 11.2.0
       hono: 4.2.6
-      hono-og: 0.0.27(hono@4.2.6)
+      hono-og: 0.0.26(hono@4.2.6)
       jose: 5.2.3
       lz-string: 1.5.0
       path-browserify: 1.0.1
@@ -1170,8 +1170,8 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
-  /hono-og@0.0.27(hono@4.2.6):
-    resolution: {integrity: sha512-FtsUmDCG7xKXD8InxzHcdzX5IIe9MrDPFHih0CUd6Hog0NcDV6tksc1cZ1sAAuftSTedmC4LV6Oi1uK6VXvZgQ==}
+  /hono-og@0.0.26(hono@4.2.6):
+    resolution: {integrity: sha512-YUaLj+T06fWpykgPoeMbxnRMuEA+L83p5+PcBzlM2P/Rj889wnapvVDtT//81iJhRVLCkdjEkAHfcZaJ67cI8w==}
     peerDependencies:
       hono: '>=3'
     dependencies:

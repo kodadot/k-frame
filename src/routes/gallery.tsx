@@ -1,32 +1,46 @@
 import { $purifyOne } from '@kodadot1/minipfs'
 import { Button, Frog, parseEther } from 'frog'
-import abi from '../abi.json' // with { type: 'json' }
+import abi from '../abi.json'; // with { type: 'json' }
 import { CHAIN_ID, HonoEnv, MINT_PRICE } from '../constants'
 import { getContent, getImage } from '../services/dyndata'
 import { baseTxUrl, kodaUrl } from '../utils'
 
 export const app = new Frog<HonoEnv>({})
 
-// app.frame('/:chain/:id', async (c) => {
-app.frame('/', async (c) => {
-  const { chain, id } = {
-    chain: 'base',
-    id: '0xd9a2c93ba2e9fae10fe762a42ee807bbf95764cc',
-  } //c.req.param()
-  // const { chain, id } = c.req.param()
+// app.frame('/', async (c) => {
+//   return c.res({
+//     title: 'KodaDot',
+//     image: 'https://raw.githubusercontent.com/kodadot/kodadot-presskit/main/pre-v4/svg/KodapinkV4.svg',
+//     browserLocation: "https://kodadot.xyz",
+//     // imageAspectRatio: '1:1',
+//     intents: [
+//       // <TextInput placeholder="Enter your kodadot.url" />,
+//       // <Button action="/poap/submit" value={`ahp/${collection.id}/denver`}>
+//       //   Mint
+//       // </Button>
+//       <Button.Link href="https://kodadot.xyz">kodadot</Button.Link>
+//     ],
+//   })
+// })  
+
+app.frame('/:chain/:id', async (c) => {
+// app.frame('/', async (c) => {
+// app.frame('/', async (c) => {
+  const { chain, id } = c.req.param()
   const collection = await getContent('base', id, null)
   const image = $purifyOne(collection.image, 'kodadot_beta')
   const price = collection.price || MINT_PRICE
 
   const label = `${collection.name} [${price} ETH]`
+  const target = `/${chain}/${id}/mint`
+  const action = `/${chain}/${id}/finish`
   return c.res({
-    // browserLocation: location,
     title: collection.name,
     image,
-    action: `/finish/${id}`,
+    action,
     imageAspectRatio: '1:1',
     intents: [
-      <Button.Transaction target={`/mint/${id}`}>
+      <Button.Transaction target={target}>
         {'Mint: '}
         {label}
         {''}
@@ -36,9 +50,9 @@ app.frame('/', async (c) => {
   })
 })
 
-app.transaction('/mint/:id', (c) => {
+app.transaction('/:chain/:id/mint', (c) => {
   const { address } = c
-  const { id: contractAddress } = c.req.param()
+  const { chain, id: contractAddress } = c.req.param()
   // Contract transaction response.
   return c.contract({
     abi: abi,
@@ -50,9 +64,10 @@ app.transaction('/mint/:id', (c) => {
   })
 })
 
-app.frame('/finish/:id', (c) => {
+app.frame('/:chain/:id/finish', (c) => {
   const { transactionId } = c
-  const { id: contractAddress } = c.req.param()
+
+  const { chain, id: contractAddress } = c.req.param()
 
   const random = Math.floor(Math.random() * 111) + 1
 

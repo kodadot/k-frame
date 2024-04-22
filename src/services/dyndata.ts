@@ -10,8 +10,8 @@ export async function getContent(
     const result = await fetch(
       `${BASE_URL}${chain}/content/${collection}` + possibleId,
     )
-    console.log(result)
-    return await result.json()
+    const response = await result.json()
+    return response
   } catch (error) {
     console.error(error)
     return null
