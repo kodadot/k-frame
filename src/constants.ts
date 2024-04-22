@@ -48,5 +48,5 @@ export const TOKEN: Record<string, `0x${string}`> = {
 }
 
 export const CHAIN = 'base' // 'base'
-export const MINT_PRICE = '0.001'
+export const MINT_PRICE = '0.0015'
 export const TOKEN_SYMBOL = 'HIGHER'
