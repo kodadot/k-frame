@@ -21,33 +21,118 @@ export const app = new Frog<HonoEnv>({})
 //       <Button.Link href="https://kodadot.xyz">kodadot</Button.Link>
 //     ],
 //   })
-// })  
+// })
+function UnverifiedImage({ imageUrl }: {imageUrl: string}) {
+  return (
+    <div
+      style={{
+        height: "100%",
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#fff",
+        fontSize: 32,
+        fontWeight: 600,
+        position: "relative",
+      }}
+    >
+      <img
+        src={imageUrl}
+        width="100%"
+        height="100%"
+      />
+      <div
+        style={{
+          display: "flex",
+          gap: "10px",
+          position: "absolute",
+          marginTop: 40,
+          bottom: 20,
+          color: "red",
+        }}
+      >
+        Join <span style={{ color: "lime" }}>/koda</span> channel to mint
+      </div>
+    </div>
+  );
+}
+
 
 app.frame('/:chain/:id', async (c) => {
-// app.frame('/', async (c) => {
-// app.frame('/', async (c) => {
-  const { chain, id } = c.req.param()
-  const collection = await getContent('base', id, null)
-  const image = $purifyOne(collection.image, 'kodadot_beta')
-  const price = collection.price || MINT_PRICE
+  // app.frame('/', async (c) => {
 
-  const label = `${collection.name} [${price} ETH]`
-  const target = `/${chain}/${id}/mint`
-  const action = `/${chain}/${id}/finish`
+  const { chain, id } = c.req.param();
+  //MOCK
+  // const chain = 'ahp'
+  // const id = '106'
+
+  const { status, frameData } = c;
+  console.log({ status });
+
+  const collection = await getContent("base", id, null);
+  //MOCK
+  // const collection = {
+  // name: "Kodadot",
+  // price: 20
+  // }
+  const imageUrl = $purifyOne(collection.image, "kodadot_beta");
+  //MOCK
+  // const imageUrl  = "https://i.ibb.co/qWHPN4j/frame.png";
+  let image: string | JSX.Element = imageUrl;
+  const price = collection.price || MINT_PRICE;
+  const label = `${collection.name} [${price} ETH]`;
+  const target = `/${chain}/${id}/mint`;
+  let action = "/";
+  let userFollowingStatus = false;
+
+  if (status === "response") {
+    if (!frameData) throw new Error("Frame data not available");
+    const userFid = frameData?.fid;
+    //MOCK
+    // const userFid = "193699";
+    try {
+      const data = await getUserChannelStatus(userFid);
+      console.log({ data });
+      userFollowingStatus = data.result.following;
+    } catch (error) {
+      console.log(error);
+      throw new Error("Could not fetch user status");
+    }
+    if (!userFollowingStatus) {
+      image = <UnverifiedImage imageUrl={imageUrl} />;
+    } else {
+      action = `/${chain}/${id}/finish`;
+    }
+  }
+
   return c.res({
     title: collection.name,
     image,
     action,
-    imageAspectRatio: '1:1',
-    intents: [
-      <Button.Transaction target={target}>
-        {'Mint: '}
-        {label}
-        {''}
-      </Button.Transaction>,
-      // <Button.Link href={location}>View</Button.Link>,
-    ],
-  })
+    imageAspectRatio: "1:1",
+    intents:
+      status === "initial" ? (
+        <Button>Mint</Button>
+      ) : !userFollowingStatus ? (
+        [
+          <Button>Retry</Button>,
+          <Button.Link href="https://warpcast.com/~/channel/koda">
+            /koda
+          </Button.Link>,
+        ]
+      ) : (
+        [
+          <Button.Transaction target={target}>
+            {"Confirm: "}
+            {label}
+            {""}
+          </Button.Transaction>,
+          // <Button.Link href={location}>View</Button.Link>,
+        ]
+      ),
+  });
 })
 
 app.transaction('/:chain/:id/mint', (c) => {
@@ -86,5 +171,31 @@ app.frame('/:chain/:id/finish', (c) => {
     ],
   })
 })
+
+
+interface Response {
+  result: {
+    following: boolean;
+    followedAt?: number;
+  };
+}
+
+async function getUserChannelStatus(fid: number): Promise<Response> {
+  const url = `https://api.warpcast.com/v1/user-channel?fid=${fid}&channelId=koda`;
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      console.log("Fail Status", response.status)
+      throw new Error(`Something went wrong fetching data`);
+    }
+
+    const data: Response = await response.json();
+    return data;
+  } catch (error) {
+    console.log({error})
+    throw new Error("Something went wrong fetching data");
+  }
+}
 
 export default app
