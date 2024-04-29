@@ -1,13 +1,10 @@
-name = "based-frame"
+name = "k-frame"
 compatibility_date = "2023-12-01"
 compatibility_flags = [ "nodejs_compat" ]
-main = "src/index.tsx"
+# main = "src/index.tsx"
 
 [env.beta]
-name = 'based-frame-beta'
-
-[env.production]
-name = 'based-frame'
+name = 'higher-beta'
 
 [site]
 bucket = "./public"
