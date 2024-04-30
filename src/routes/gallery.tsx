@@ -63,10 +63,10 @@ function UnverifiedImage({ imageUrl }: {imageUrl: string}) {
 app.frame('/:chain/:id', async (c) => {
   // app.frame('/', async (c) => {
 
-  const { chain, id } = c.req.param();
-  //MOCK
-  // const chain = 'ahp'
-  // const id = '106'
+  const { chain, id } = {
+    chain: "base",
+    id: "0xd9a2c93ba2e9fae10fe762a42ee807bbf95764cc",
+  };
 
   const { status, frameData } = c;
   console.log({ status });
