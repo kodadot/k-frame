@@ -21,7 +21,7 @@ export const app = new Frog<HonoEnv>({})
 //       <Button.Link href="https://kodadot.xyz">kodadot</Button.Link>
 //     ],
 //   })
-// })  
+// })
 
 app.frame('/:chain/:id', async (c) => {
 // app.frame('/', async (c) => {
@@ -52,7 +52,7 @@ app.frame('/:chain/:id', async (c) => {
 
 app.transaction('/:chain/:id/mint', (c) => {
   const { address } = c
-  const { chain, id: contractAddress } = c.req.param()
+  const { id: contractAddress } = c.req.param()
   // Contract transaction response.
   return c.contract({
     abi: abi,
@@ -67,7 +67,7 @@ app.transaction('/:chain/:id/mint', (c) => {
 app.frame('/:chain/:id/finish', (c) => {
   const { transactionId } = c
 
-  const { chain, id: contractAddress } = c.req.param()
+  const { id: contractAddress } = c.req.param()
 
   const random = Math.floor(Math.random() * 111) + 1
 
