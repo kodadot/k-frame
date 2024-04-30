@@ -68,8 +68,36 @@ app.frame('/:chain/:id', async (c) => {
     id: "0xd9a2c93ba2e9fae10fe762a42ee807bbf95764cc",
   };
 
-  const { status, frameData } = c;
-  console.log({ status });
+  const collection = await getContent("base", id, null);
+  //MOCK
+  // const collection = {
+  // name: "Kodadot",
+  // price: 20
+  // }
+  const image = $purifyOne(collection.image, "kodadot_beta");
+  //MOCK
+  // const image  = "https://i.ibb.co/qWHPN4j/frame.png";
+
+
+  return c.res({
+    title: collection.name,
+    image,
+    imageAspectRatio: "1:1",
+    intents:(
+        <Button action={`/${chain}/${id}/verify`}>Mint</Button>
+      )
+  });
+})
+app.frame('/:chain/:id/verify', async (c) => {
+  // app.frame('/', async (c) => {
+
+  const { chain, id } = {
+    chain: "base",
+    id: "0xd9a2c93ba2e9fae10fe762a42ee807bbf95764cc",
+  };
+
+  const { frameData } = c;
+
 
   const collection = await getContent("base", id, null);
   //MOCK
@@ -84,10 +112,9 @@ app.frame('/:chain/:id', async (c) => {
   const price = collection.price || MINT_PRICE;
   const label = `${collection.name} [${price} ETH]`;
   const target = `/${chain}/${id}/mint`;
-  let action = "/";
+  let action = `/${chain}/${id}/verify`;
   let userFollowingStatus = false;
 
-  if (status === "response") {
     if (!frameData) throw new Error("Frame data not available");
     const userFid = frameData?.fid;
     //MOCK
@@ -105,7 +132,7 @@ app.frame('/:chain/:id', async (c) => {
     } else {
       action = `/${chain}/${id}/finish`;
     }
-  }
+
 
   return c.res({
     title: collection.name,
@@ -113,9 +140,7 @@ app.frame('/:chain/:id', async (c) => {
     action,
     imageAspectRatio: "1:1",
     intents:
-      status === "initial" ? (
-        <Button>Mint</Button>
-      ) : !userFollowingStatus ? (
+      !userFollowingStatus ? (
         [
           <Button>Retry</Button>,
           <Button.Link href="https://warpcast.com/~/channel/koda">
