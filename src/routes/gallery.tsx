@@ -31,9 +31,9 @@ app.frame('/:chain/:id', async (c) => {
   const collection = await getContent('base', id, null)
   const random = Math.floor(Math.random() * 111) + 1
 
-  const image = status === "initial"
-    ? $purifyOne(collection.image, "kodadot_beta")
-    : getImage("base", id, String(random))
+  const image = status === 'initial'
+    ? $purifyOne(collection.image, 'kodadot_beta')
+    : getImage('base', id, String(random))
 
   const price = collection.price || MINT_PRICE
 
@@ -48,11 +48,11 @@ app.frame('/:chain/:id', async (c) => {
     imageAspectRatio: '1:1',
     intents: [
       <Button.Transaction target={target}>
-        {"Mint: "}
+        {'Mint: '}
         {label}
-        {""}
+        {''}
       </Button.Transaction>,
-      <Button action={c.req.path}> ↻ </Button>,
+      <Button action={c.req.path}>↻</Button>,
       // <Button.Link href={location}>View</Button.Link>,
     ],
   })
