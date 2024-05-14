@@ -27,22 +27,20 @@ app.frame('/:chain/:id', async (c) => {
 // app.frame('/', async (c) => {
   const { chain, id } = c.req.param()
   const { status } = c
-  // TEST
-  // const { chain, id } = {
-  //   chain: "base",
-  //   id: "0x1b60a7ee6bba284a6aafa1eca0a1f7ea42099373",
-  // };
+
   const collection = await getContent('base', id, null)
   const random = Math.floor(Math.random() * 111) + 1;
 
-  let image;
-  if (status === "initial") image = $purifyOne(collection.image, "kodadot_beta");
-  else  image = getImage("base", id, String(random));
+  const image = status === "initial"
+  ? $purifyOne(collection.image, "kodadot_beta")
+  : getImage("base", id, String(random));
+  
   const price = collection.price || MINT_PRICE
 
   const label = `${collection.name} [${price} ETH]`
   const target = `/${chain}/${id}/mint`
   const action = `/${chain}/${id}/${random}/finish`
+  
   return c.res({
     title: collection.name,
     image,
@@ -54,7 +52,7 @@ app.frame('/:chain/:id', async (c) => {
         {label}
         {""}
       </Button.Transaction>,
-      <Button action="/"> ↻ </Button>,
+      <Button action={c.req.path}> ↻ </Button>,
       // <Button.Link href={location}>View</Button.Link>,
     ],
   });
