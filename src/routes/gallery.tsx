@@ -25,29 +25,36 @@ export const app = new Frog<HonoEnv>({})
 
 app.frame('/:chain/:id', async (c) => {
 // app.frame('/', async (c) => {
-// app.frame('/', async (c) => {
   const { chain, id } = c.req.param()
+  // TEST
+  // const { chain, id } = {
+  //   chain: "base",
+  //   id: "0x1b60a7ee6bba284a6aafa1eca0a1f7ea42099373",
+  // };
   const collection = await getContent('base', id, null)
-  const image = $purifyOne(collection.image, 'kodadot_beta')
+  // const image = $purifyOne(collection.image, 'kodadot_beta')
+  const random = Math.floor(Math.random() * 111) + 1;
+  const image = getImage("base", id, String(random));
   const price = collection.price || MINT_PRICE
 
   const label = `${collection.name} [${price} ETH]`
   const target = `/${chain}/${id}/mint`
-  const action = `/${chain}/${id}/finish`
+  const action = `/${chain}/${id}/${random}/finish`
   return c.res({
     title: collection.name,
     image,
     action,
-    imageAspectRatio: '1:1',
+    imageAspectRatio: "1:1",
     intents: [
       <Button.Transaction target={target}>
-        {'Mint: '}
+        {"Mint: "}
         {label}
-        {''}
+        {""}
       </Button.Transaction>,
+      <Button action="/"> ↻ </Button>,
       // <Button.Link href={location}>View</Button.Link>,
     ],
-  })
+  });
 })
 
 app.transaction('/:chain/:id/mint', (c) => {
@@ -64,16 +71,16 @@ app.transaction('/:chain/:id/mint', (c) => {
   })
 })
 
-app.frame('/:chain/:id/finish', (c) => {
+app.frame('/:chain/:id/:random/finish', (c) => {
   const { transactionId } = c
 
-  const { id: contractAddress } = c.req.param()
+  const { id: contractAddress, random } = c.req.param()
 
-  const random = Math.floor(Math.random() * 111) + 1
+  // const random = Math.floor(Math.random() * 111) + 1
 
   const txUrl = transactionId ? baseTxUrl(transactionId) : undefined
   const location = kodaUrl('base', contractAddress)
-  const image = getImage('base', contractAddress, String(random))
+  const image = getImage('base', contractAddress, random)
   return c.res({
     browserLocation: location,
     image: image,
