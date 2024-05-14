@@ -1,6 +1,6 @@
 import { $purifyOne } from '@kodadot1/minipfs'
 import { Button, Frog, parseEther } from 'frog'
-import abi from '../abi.json'; // with { type: 'json' }
+import abi from '../abi.json' // with { type: 'json' }
 import { CHAIN_ID, HonoEnv, MINT_PRICE } from '../constants'
 import { getContent, getImage } from '../services/dyndata'
 import { baseTxUrl, kodaUrl } from '../utils'
@@ -24,28 +24,28 @@ export const app = new Frog<HonoEnv>({})
 // })
 
 app.frame('/:chain/:id', async (c) => {
-// app.frame('/', async (c) => {
+  // app.frame('/', async (c) => {
   const { chain, id } = c.req.param()
   const { status } = c
 
   const collection = await getContent('base', id, null)
-  const random = Math.floor(Math.random() * 111) + 1;
+  const random = Math.floor(Math.random() * 111) + 1
 
   const image = status === "initial"
-  ? $purifyOne(collection.image, "kodadot_beta")
-  : getImage("base", id, String(random));
-  
+    ? $purifyOne(collection.image, "kodadot_beta")
+    : getImage("base", id, String(random))
+
   const price = collection.price || MINT_PRICE
 
   const label = `${collection.name} [${price} ETH]`
   const target = `/${chain}/${id}/mint`
   const action = `/${chain}/${id}/${random}/finish`
-  
+
   return c.res({
     title: collection.name,
     image,
     action,
-    imageAspectRatio: "1:1",
+    imageAspectRatio: '1:1',
     intents: [
       <Button.Transaction target={target}>
         {"Mint: "}
@@ -55,7 +55,7 @@ app.frame('/:chain/:id', async (c) => {
       <Button action={c.req.path}> ↻ </Button>,
       // <Button.Link href={location}>View</Button.Link>,
     ],
-  });
+  })
 })
 
 app.transaction('/:chain/:id/mint', (c) => {
