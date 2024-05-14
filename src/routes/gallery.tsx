@@ -26,15 +26,18 @@ export const app = new Frog<HonoEnv>({})
 app.frame('/:chain/:id', async (c) => {
 // app.frame('/', async (c) => {
   const { chain, id } = c.req.param()
+  const { status } = c
   // TEST
   // const { chain, id } = {
   //   chain: "base",
   //   id: "0x1b60a7ee6bba284a6aafa1eca0a1f7ea42099373",
   // };
   const collection = await getContent('base', id, null)
-  // const image = $purifyOne(collection.image, 'kodadot_beta')
   const random = Math.floor(Math.random() * 111) + 1;
-  const image = getImage("base", id, String(random));
+
+  let image;
+  if (status === "initial") image = $purifyOne(collection.image, "kodadot_beta");
+  else  image = getImage("base", id, String(random));
   const price = collection.price || MINT_PRICE
 
   const label = `${collection.name} [${price} ETH]`
