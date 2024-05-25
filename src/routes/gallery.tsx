@@ -38,7 +38,7 @@ app.frame('/:chain/:id', async (c) => {
   const price = collection.price || MINT_PRICE
 
   const label = `${collection.name} [${price} ETH]`
-  const target = `/${chain}/${id}/mint`
+  const target = `/${chain}/${id}/mint/${price}`
   const action = `/${chain}/${id}/${random}/finish`
 
   return c.res({
@@ -58,11 +58,9 @@ app.frame('/:chain/:id', async (c) => {
   })
 })
 
-app.transaction('/:chain/:id/mint', async (c) => {
+app.transaction('/:chain/:id/mint/:price', (c) => {
   const { address } = c
-  const { id: contractAddress } = c.req.param()
-  const collection = await getContent('base', contractAddress, null)
-  const price = collection.price || MINT_PRICE
+  const { id: contractAddress, price } = c.req.param()
   // Contract transaction response.
   return c.contract({
     abi: abi,
@@ -70,7 +68,7 @@ app.transaction('/:chain/:id/mint', async (c) => {
     functionName: 'safeMint',
     args: [address],
     to: contractAddress as `0x${string}`,
-    value: parseEther(price),
+    value: parseEther(price || MINT_PRICE),
   })
 })
 
