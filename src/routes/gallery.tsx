@@ -32,7 +32,7 @@ app.frame('/:chain/:id', async (c) => {
   const random = Math.floor(Math.random() * 111) + 1
 
   const image = status === 'initial'
-    ? $purifyOne(collection.image, 'kodadot_beta')
+    ? $purifyOne(collection.image, 'w3s')
     : getImage('base', id, String(random))
 
   const price = collection.price || MINT_PRICE
