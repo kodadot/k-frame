@@ -6,6 +6,9 @@ main = "src/index.tsx"
 [env.beta]
 name = 'k-frame-beta'
 
+[env.follow]
+name = 'k-follow'
+
 [site]
 bucket = "./public"
 

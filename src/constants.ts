@@ -50,3 +50,5 @@ export const TOKEN: Record<string, `0x${string}`> = {
 export const CHAIN = 'base' // 'base'
 export const MINT_PRICE = '0.002'
 export const TOKEN_SYMBOL = 'HIGHER'
+
+export const JOIN_IMAGE = 'https://imagedelivery.net/jk5b6spi_m_-9qC4VTnjpg/2a725d38-de4d-4dc9-d769-b4db49435000/public'
