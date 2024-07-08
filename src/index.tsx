@@ -8,6 +8,7 @@ import { app as gallery } from './routes/gallery'
 // import { neynar } from 'frog/hubs'
 
 export const app = new Frog({
+  title: 'koda.art mint frame'
   // Supply a Hub to enable frame verification.
   // hub: pinata() //neynar({ apiKey: 'NEYNAR_FROG_FM' })
   // ui: { vars }
