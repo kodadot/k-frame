@@ -76,13 +76,15 @@ app.frame('/:chain/:id', async (c) => {
 
   const collection = await getContent("base", id, null);
   const image = $purifyOne(collection.image, "kodadot_beta");
+  const price = collection.price ?? MINT_PRICE;
+  const priceLabel = price === "0" ? 'Free' : ''
 
   return c.res({
     title: collection.name,
     image,
     imageAspectRatio: "1:1",
     intents:(
-        <Button action={`/${chain}/${id}/verify`}>Mint</Button>
+        <Button action={`/${chain}/${id}/verify`}>Follow & {priceLabel} Mint</Button>
       )
   });
 })
