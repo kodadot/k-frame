@@ -16,7 +16,11 @@ import { baseTxUrl, kodaUrl } from '../utils'
 const chainId = CHAIN_ID.BASE
 const contract = ALTERNATIVE_CONTRACT.BASE
 
-export const app = new Frog<HonoEnv>({})
+export const app = new Frog<HonoEnv>({
+  title: 'koda.art mint frame',
+  // Supply a Hub to enable frame verification.
+  // hub: pinata()
+})
 
 app.frame('/', async (c) => {
   // const { chain, id } = { chain: 'base', id: '0x25194dfc7981d8a13367fe19b5b1c5fc010d535f' } //c.req.param()

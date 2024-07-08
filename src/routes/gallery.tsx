@@ -5,7 +5,11 @@ import { CHAIN_ID, HonoEnv, MINT_PRICE } from '../constants'
 import { getContent, getImage } from '../services/dyndata'
 import { baseTxUrl, kodaUrl } from '../utils'
 
-export const app = new Frog<HonoEnv>({})
+export const app = new Frog<HonoEnv>({
+  title: 'koda.art mint frame',
+  // Supply a Hub to enable frame verification.
+  // hub: pinata()
+})
 
 // app.frame('/', async (c) => {
 //   return c.res({
