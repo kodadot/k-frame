@@ -98,7 +98,7 @@ app.frame('/:chain/:id/verify', async (c) => {
 
   const imageUrl = $purifyOne(collection.image, "kodadot_beta");
   let image: string = imageUrl; // | JSX.Element
-  const price = collection.price || MINT_PRICE;
+  const price = collection.price ?? MINT_PRICE;
   const label = `${collection.name} [${price} ETH]`;
   const target = `/${chain}/${id}/mint/${price}`
   let action = `/${chain}/${id}/verify`;
