@@ -6,7 +6,11 @@ import { getContent, getImage } from '../services/dyndata'
 import { baseTxUrl, kodaUrl } from '../utils'
 import { getUserChannelStatus } from '../services/warpcast'
 
-export const app = new Frog<HonoEnv>({})
+export const app = new Frog<HonoEnv>({
+  title: 'koda.art follow frame',
+  // Supply a Hub to enable frame verification.
+  // hub: pinata()
+})
 
 // app.frame('/', async (c) => {
 //   return c.res({
@@ -63,12 +67,13 @@ export const app = new Frog<HonoEnv>({})
 
 app.frame('/:chain/:id', async (c) => {
 // app.frame('/', async (c) => {
-  // const { chain, id } = {
-  //   chain: "base",
-  //   id: "0xd9a2c93ba2e9fae10fe762a42ee807bbf95764cc",
-  // };
+//   const { chain, id } = {
+//     chain: "base",
+//     id: "0xe215f77d95b83a098da0dfcb93af901fe6524dfe",
+//   };
 
   const { chain, id } = c.req.param();
+
   const collection = await getContent("base", id, null);
   const image = $purifyOne(collection.image, "kodadot_beta");
 
@@ -84,10 +89,7 @@ app.frame('/:chain/:id', async (c) => {
 app.frame('/:chain/:id/verify', async (c) => {
 // app.frame('/', async (c) => {
 
-  const { chain, id } = {
-    chain: "base",
-    id: "0xd9a2c93ba2e9fae10fe762a42ee807bbf95764cc",
-  };
+  const { chain, id } = c.req.param();
 
   const { frameData } = c;
 
@@ -131,10 +133,10 @@ app.frame('/:chain/:id/verify', async (c) => {
     intents:
       !userFollowingStatus ? (
         [
-          <Button>Check again</Button>,
           <Button.Link href="https://warpcast.com/~/channel/koda">
             /koda
           </Button.Link>,
+          <Button>Check again</Button>,
         ]
       ) : (
         [
@@ -159,7 +161,7 @@ app.transaction('/:chain/:id/mint/:price', (c) => {
     functionName: 'safeMint',
     args: [address],
     to: contractAddress as `0x${string}`,
-    value: parseEther(price || MINT_PRICE),
+    value: parseEther(price ?? MINT_PRICE),
   })
 })
 
