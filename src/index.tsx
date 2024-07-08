@@ -1,8 +1,8 @@
 import { Frog } from 'frog'
 import { devtools } from 'frog/dev'
 import { serveStatic } from 'frog/serve-static'
-// import { app as gallery } from './routes/gallery'
-import { app as follow } from './routes/follow'
+import { app as gallery } from './routes/gallery'
+// import { app as follow } from './routes/follow'
 // import { pinata } from 'frog/hubs'
 // import { vars } from './ui'
 // import { neynar } from 'frog/hubs'
@@ -14,8 +14,8 @@ export const app = new Frog({
   // ui: { vars }
 })
 
-app.route('/', follow)
-// app.route('/', gallery)
+// app.route('/', follow)
+app.route('/', gallery)
 
 const isCloudflareWorker = typeof caches !== 'undefined'
 if (isCloudflareWorker) {
