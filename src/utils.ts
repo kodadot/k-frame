@@ -1,6 +1,7 @@
 export function kodaUrl(chain: string, collection: string, token?: string): string {
   const base = `https://koda.art/${chain}/`
-  const path = token ? `gallery/${collection}-${token}` : `collection/${collection}`
+  const col = collection.toLowerCase()
+  const path = token ? `gallery/${col}-${token}` : `collection/${col}`
   return base + path
 }
 
